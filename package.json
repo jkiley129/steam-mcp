@@ -1,0 +1,35 @@
+{
+  "name": "steam-mcp",
+  "version": "0.1.0",
+  "description": "MCP server that exposes your Steam library to Claude. Ask natural-language questions about your games.",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "steam-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "prepare": "npm run build"
+  },
+  "keywords": ["mcp", "steam", "claude", "ai", "gaming"],
+  "author": "Joe Kiley",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jkiley129/steam-mcp.git"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.10.1",
+    "dotenv": "^16.4.7",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
