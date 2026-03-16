@@ -47,13 +47,22 @@ You need either:
 
 In Steam: your profile → **Edit Profile** → **Privacy Settings** → set **My Profile** and **Game details** to **Public**.
 
-### 4. Configure Claude Desktop
+### 4. Run setup
+
+```bash
+npx steam-mcp setup
+```
+
+This validates your credentials and writes the Claude Desktop config automatically. Restart Claude Desktop when it's done.
+
+<details>
+<summary>Manual config (if you prefer)</summary>
 
 Find your Claude Desktop config file:
 - **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
 - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
 
-Add the following to the `mcpServers` section (no install required — `npx` handles it automatically):
+Add to the `mcpServers` section:
 
 ```json
 {
@@ -69,8 +78,7 @@ Add the following to the `mcpServers` section (no install required — `npx` han
   }
 }
 ```
-
-Restart Claude Desktop. You should see the Steam tools available in the chat input.
+</details>
 
 ---
 
