@@ -25,9 +25,11 @@ export async function getLibrary(includeUnplayed: boolean = true): Promise<Forma
     writeCache(cacheKey, games, TTL.LIBRARY);
   }
 
-  const formatted = games.map(formatGame);
+  const formatted = games
+    .map(formatGame)
+    .sort((a, b) => b.playtime_forever_hours - a.playtime_forever_hours);
   if (!includeUnplayed) {
     return formatted.filter((g) => g.playtime_forever_hours > 0);
   }
-  return formatted.sort((a, b) => b.playtime_forever_hours - a.playtime_forever_hours);
+  return formatted;
 }
