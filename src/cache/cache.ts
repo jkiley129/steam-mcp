@@ -42,9 +42,16 @@ export function readCache<T>(key: string): T | null {
 }
 
 export function writeCache<T>(key: string, data: T, ttlMs: number): void {
-  const dir = ensureCacheDir();
-  const entry: CacheEntry<T> = { data, fetchedAt: Date.now(), ttlMs };
-  fs.writeFileSync(path.join(dir, `${key}.json`), JSON.stringify(entry, null, 2));
+  try {
+    const dir = ensureCacheDir();
+    const entry: CacheEntry<T> = { data, fetchedAt: Date.now(), ttlMs };
+    fs.writeFileSync(path.join(dir, `${key}.json`), JSON.stringify(entry, null, 2));
+  } catch (err) {
+    // Cache writes are best-effort — log but don't crash the tool
+    process.stderr.write(
+      `[steam-mcp] Warning: could not write cache for "${key}": ${err instanceof Error ? err.message : String(err)}\n`
+    );
+  }
 }
 
 export function clearCache(): void {

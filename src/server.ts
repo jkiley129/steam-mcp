@@ -24,10 +24,13 @@ export function createServer(): McpServer {
         .describe("Include games with 0 playtime (default: true)"),
     },
     async ({ include_unplayed }) => {
-      const games = await getLibrary(include_unplayed);
-      return {
-        content: [{ type: "text", text: JSON.stringify(games, null, 2) }],
-      };
+      try {
+        const games = await getLibrary(include_unplayed);
+        return { content: [{ type: "text", text: JSON.stringify(games, null, 2) }] };
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        return { content: [{ type: "text", text: `Error: ${msg}` }], isError: true };
+      }
     }
   );
 
@@ -46,10 +49,13 @@ export function createServer(): McpServer {
         .describe("Number of games to return (default: 10, max: 100)"),
     },
     async ({ count }) => {
-      const games = await getRecentlyPlayedGames(count);
-      return {
-        content: [{ type: "text", text: JSON.stringify(games, null, 2) }],
-      };
+      try {
+        const games = await getRecentlyPlayedGames(count);
+        return { content: [{ type: "text", text: JSON.stringify(games, null, 2) }] };
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        return { content: [{ type: "text", text: `Error: ${msg}` }], isError: true };
+      }
     }
   );
 
@@ -75,10 +81,13 @@ export function createServer(): McpServer {
         .describe("Max results to return (default: 20)"),
     },
     async (params) => {
-      const games = await searchLibrary(params);
-      return {
-        content: [{ type: "text", text: JSON.stringify(games, null, 2) }],
-      };
+      try {
+        const games = await searchLibrary(params);
+        return { content: [{ type: "text", text: JSON.stringify(games, null, 2) }] };
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        return { content: [{ type: "text", text: `Error: ${msg}` }], isError: true };
+      }
     }
   );
 
@@ -94,10 +103,13 @@ export function createServer(): McpServer {
       appid: z.number().int().optional().describe("Steam app ID"),
     },
     async ({ name, appid }) => {
-      const details = await getGameDetails({ name, appid });
-      return {
-        content: [{ type: "text", text: JSON.stringify(details, null, 2) }],
-      };
+      try {
+        const details = await getGameDetails({ name, appid });
+        return { content: [{ type: "text", text: JSON.stringify(details, null, 2) }] };
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        return { content: [{ type: "text", text: `Error: ${msg}` }], isError: true };
+      }
     }
   );
 
@@ -107,10 +119,13 @@ export function createServer(): McpServer {
     "Clear the local cache so the next query fetches fresh data from Steam. Use after buying new games.",
     {},
     async () => {
-      const result = refreshLibrary();
-      return {
-        content: [{ type: "text", text: result.message }],
-      };
+      try {
+        const result = refreshLibrary();
+        return { content: [{ type: "text", text: result.message }] };
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        return { content: [{ type: "text", text: `Error: ${msg}` }], isError: true };
+      }
     }
   );
 

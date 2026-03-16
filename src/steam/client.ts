@@ -14,10 +14,40 @@ const STEAM_API_BASE = "https://api.steampowered.com";
 const STORE_API_BASE = "https://store.steampowered.com/api";
 
 async function steamGet<T>(url: string): Promise<T> {
-  const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error(`Steam API error: ${res.status} ${res.statusText} — ${url}`);
+  let res: Awaited<ReturnType<typeof fetch>>;
+  try {
+    res = await fetch(url);
+  } catch (err) {
+    throw new Error(
+      `Could not reach Steam. Check your internet connection.\nDetail: ${err instanceof Error ? err.message : String(err)}`
+    );
   }
+
+  if (!res.ok) {
+    switch (res.status) {
+      case 401:
+        throw new Error(
+          "Steam API key is invalid or expired. Check your key at: https://steamcommunity.com/dev/apikey"
+        );
+      case 403:
+        throw new Error(
+          "Steam denied access (403). Your profile or game library may be private. " +
+          "Set both to Public in Steam → your profile → Edit Profile → Privacy Settings."
+        );
+      case 429:
+        throw new Error(
+          "Steam is rate-limiting requests (429). Wait a minute and try again."
+        );
+      default:
+        if (res.status >= 500) {
+          throw new Error(
+            `Steam servers returned an error (${res.status}). This is on Steam's side — try again in a moment.`
+          );
+        }
+        throw new Error(`Steam API error: ${res.status} ${res.statusText}`);
+    }
+  }
+
   return res.json() as Promise<T>;
 }
 
