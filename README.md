@@ -47,25 +47,20 @@ You need either:
 
 In Steam: your profile → **Edit Profile** → **Privacy Settings** → set **My Profile** and **Game details** to **Public**.
 
-### 4. Install
-
-```bash
-npm install -g steam-mcp
-```
-
-### 5. Configure Claude Desktop
+### 4. Configure Claude Desktop
 
 Find your Claude Desktop config file:
 - **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
 - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
 
-Add the following to the `mcpServers` section:
+Add the following to the `mcpServers` section (no install required — `npx` handles it automatically):
 
 ```json
 {
   "mcpServers": {
-    "steam": {
-      "command": "steam-mcp",
+    "steam-mcp": {
+      "command": "npx",
+      "args": ["-y", "steam-mcp"],
       "env": {
         "STEAM_API_KEY": "your_api_key_here",
         "STEAM_ID": "your_vanity_url_or_64bit_id"
@@ -75,7 +70,7 @@ Add the following to the `mcpServers` section:
 }
 ```
 
-Restart Claude Desktop. You should see the Steam tools available.
+Restart Claude Desktop. You should see the Steam tools available in the chat input.
 
 ---
 
@@ -145,7 +140,7 @@ Check that `STEAM_ID` matches the username in your Steam profile URL (`steamcomm
 Verify your API key at [steamcommunity.com/dev/apikey](https://steamcommunity.com/dev/apikey). Keys are tied to your Steam account login.
 
 **Tools not showing in Claude**
-Restart Claude Desktop after editing the config file. Check that `steam-mcp` is in your PATH by running `steam-mcp` in a terminal — if it's not found, re-run `npm install -g steam-mcp` or check your npm global bin directory.
+Restart Claude Desktop fully (quit from the system tray, not just close the window) after editing the config file. Check that Node.js 18+ is installed by running `node --version` in a terminal.
 
 ---
 
