@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { loadConfig } from "./config.js";
 import { createServer } from "./server.js";
 import { runSetup } from "./setup.js";
 
@@ -8,15 +7,6 @@ async function main() {
   if (process.argv[2] === "setup") {
     await runSetup();
     return;
-  }
-
-  // Validate config on startup — fail fast with clear errors before accepting connections
-  try {
-    await loadConfig();
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    process.stderr.write(`[steam-mcp] Configuration error:\n${message}\n`);
-    process.exit(1);
   }
 
   const server = createServer();
