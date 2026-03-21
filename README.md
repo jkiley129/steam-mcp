@@ -1,5 +1,7 @@
 # steam-mcp
 
+[![steam-mcp MCP server](https://glama.ai/mcp/servers/jkiley129/steam-mcp/badges/card.svg)](https://glama.ai/mcp/servers/jkiley129/steam-mcp)
+
 A local [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server that connects Claude to your Steam library. Ask natural-language questions about your games without ever touching the API yourself.
 
 ```
